@@ -14,18 +14,25 @@ public class TurnScript : MonoBehaviour
     void Start()
     {
         spriteRenderer=GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite=null;
         gameManager=GameObject.Find("Game Manager").GetComponent<GameManager>();
+        ResetTile();
         index=gameObject.name[1]-'1';
         row=index/3;
         col=index%3;
     }
-
+    void Update()
+    {
+        if (gameManager.board[row * 3 + col] == -1)
+        {
+            ResetTile();
+        }
+    }
     void OnMouseDown()
     {
         if (!unplayed)  return;
         //Debug.Log((row,col));
         turn = gameManager.PlayerTurn();
+        if (turn==-1) return;
 
         // Player : 1 (Red X)
         // Enemy : 0 (Blue O)

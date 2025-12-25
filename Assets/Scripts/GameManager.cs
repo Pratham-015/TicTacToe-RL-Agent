@@ -8,26 +8,30 @@ public class GameManager : MonoBehaviour
     public int[] board=new int[9];
     void Start()
     {
-        Restart();
+        Restart("Game Start");
     }
     public int PlayerTurn()
     {
         currentTurn++;
+        if (currentTurn == 9)
+        {
+            Restart("Draw");
+            return -1;
+        }
         return currentTurn%2;
     }
-    /*public void Update()
+    public void Update()
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            Restart();
+            Restart("Restart");
         }
-    }*/
+    }
     public int WinCheck(int i,int j,int turn)
     {
         if ((board[i*3] == turn) & (board[i*3 + 1] == turn) & (board[i*3 + 2] == turn))
         {
-            AddScore(turn);
-            return 1;
+            return AddScore(turn);
         }
         if ((board[ j] == turn) & (board[3 + j] == turn) & (board[6 + j] == turn))
         {
@@ -53,22 +57,21 @@ public class GameManager : MonoBehaviour
     {
         if (turn == 1)
         {
-            Debug.Log("Player won");
+            Restart("Player won");
         }
         else if (turn == 0)
         {
-            Debug.Log("Enemy won");
+            Restart("Enemy won");
         }
-        Restart();
         return 1;
     }
-    public void Restart()
+    public void Restart(string s)
     {
         for (int i = 0; i < 9; i++)
         {
             board[i]=-1;
         }
         currentTurn=0;
-        Debug.Log("Restart");
+        Debug.Log(s);
     }
 }
