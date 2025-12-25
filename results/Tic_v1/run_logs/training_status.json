@@ -2,22 +2,40 @@
     "Tic": {
         "checkpoints": [
             {
-                "steps": 2000,
-                "file_path": "results/Tic_v1/Tic/Tic-2000.onnx",
-                "reward": null,
-                "creation_time": 1766682464.8879194,
+                "steps": 9182,
+                "file_path": "results/Tic_v1/Tic/Tic-9182.onnx",
+                "reward": -349.6270706096307,
+                "creation_time": 1766692967.1123636,
                 "auxillary_file_paths": [
-                    "results/Tic_v1/Tic/Tic-2000.pt"
+                    "results/Tic_v1/Tic/Tic-9182.pt"
+                ]
+            },
+            {
+                "steps": 10003,
+                "file_path": "results/Tic_v1/Tic/Tic-10003.onnx",
+                "reward": -365.43367689483017,
+                "creation_time": 1766693006.236997,
+                "auxillary_file_paths": [
+                    "results/Tic_v1/Tic/Tic-10003.pt"
+                ]
+            },
+            {
+                "steps": 20023,
+                "file_path": "results/Tic_v1/Tic/Tic-20023.onnx",
+                "reward": -336.28700035309123,
+                "creation_time": 1766693532.8332124,
+                "auxillary_file_paths": [
+                    "results/Tic_v1/Tic/Tic-20023.pt"
                 ]
             }
         ],
         "final_checkpoint": {
-            "steps": 2000,
+            "steps": 20023,
             "file_path": "results/Tic_v1/Tic.onnx",
-            "reward": null,
-            "creation_time": 1766682464.8879194,
+            "reward": -336.28700035309123,
+            "creation_time": 1766693532.8332124,
             "auxillary_file_paths": [
-                "results/Tic_v1/Tic/Tic-2000.pt"
+                "results/Tic_v1/Tic/Tic-20023.pt"
             ]
         }
     },

@@ -12,8 +12,9 @@ public class TurnScript : MonoBehaviour
     void Start()
     {
         spriteRenderer=GetComponent<SpriteRenderer>();
-        gameManager=GameObject.Find("Game Manager").GetComponent<GameManager>();
+
         ResetTile();
+
         index=gameObject.name[1]-'1';
         row=index/3;
         col=index%3;
@@ -27,8 +28,9 @@ public class TurnScript : MonoBehaviour
     }
     void OnMouseDown()
     {
+        // For manual playing
         if (!unplayed)  return;
-        //Debug.Log((row,col));
+
         turn = gameManager.PlayerTurn(row,col);
         if (turn==-1) return;
 

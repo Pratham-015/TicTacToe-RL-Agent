@@ -71,9 +71,6 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
-# Editor Config (I dont know what this is)
-.editorconfig
-
 #Venv 
 /env/
 /venv/
