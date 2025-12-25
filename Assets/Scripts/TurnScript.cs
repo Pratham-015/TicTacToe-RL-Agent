@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -31,16 +29,14 @@ public class TurnScript : MonoBehaviour
     {
         if (!unplayed)  return;
         //Debug.Log((row,col));
-        turn = gameManager.PlayerTurn();
+        turn = gameManager.PlayerTurn(row,col);
         if (turn==-1) return;
 
         // Player : 1 (Red X)
         // Enemy : 0 (Blue O)
         spriteRenderer.sprite=Images[turn];
-        gameManager.board[row*3+col]=turn;
 
         unplayed=false;
-        gameManager.WinCheck(row, col, turn);
     }
     void ResetTile()
     {

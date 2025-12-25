@@ -1,30 +1,53 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+    int turn;
     int currentTurn=0;
     public int[] board=new int[9];
+
+    [Header("Scores")]
+    public int Games = 0;
+    public int PlayerWins = 0;
+    public int EnemyWins = 0;
+    public int Draws = 0;
+
+    [Header("UI")]
+    public TMP_Text GamesText;
+    public TMP_Text PlayerScoreText;
+    public TMP_Text EnemyScoreText;
+    public TMP_Text DrawsText;
+    public TMP_Text TurnText;
     void Start()
     {
-        Restart("Game Start");
+        Restart();
     }
-    public int PlayerTurn()
+    public int PlayerTurn(int r, int c)
     {
-        currentTurn++;
-        if (currentTurn == 9)
+        if (currentTurn>=0) {
+            currentTurn++;
+            turn =currentTurn%2;
+        }
+        else {
+            currentTurn--;
+            turn=(-currentTurn)%2;
+        }
+        board[r*3+c]=turn;
+        if (WinCheck(r, c, turn) == 1) return -1;
+
+        if (currentTurn == 9 || currentTurn == -10)
         {
-            Restart("Draw");
+            AddScore(-1);
             return -1;
         }
-        return currentTurn%2;
+        return turn;
     }
     public void Update()
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            Restart("Restart");
+            Restart();
         }
     }
     public int WinCheck(int i,int j,int turn)
@@ -55,23 +78,48 @@ public class GameManager : MonoBehaviour
     }
     public int AddScore(int turn)
     {
+        Games++;
         if (turn == 1)
         {
-            Restart("Player won");
+            PlayerWins++;
+            Restart();
         }
         else if (turn == 0)
         {
-            Restart("Enemy won");
+            EnemyWins++;
+            Restart();
+        }
+        else if (turn==-1)
+        {
+            Draws++;
+            Restart();
         }
         return 1;
     }
-    public void Restart(string s)
+    public void Restart()
     {
         for (int i = 0; i < 9; i++)
         {
             board[i]=-1;
         }
-        currentTurn=0;
-        Debug.Log(s);
+        UpdateUI();
+        
+        if (Random.value < 0.5f)
+        {
+            currentTurn=0;
+            TurnText.text="Player's Turn";
+        }
+        else
+        {
+            currentTurn=-1;
+            TurnText.text="Enemy's Turn";           
+        }
+    }
+    void UpdateUI()
+    {
+        GamesText.text="Games "+Games;
+        PlayerScoreText.text="Player "+PlayerWins;
+        EnemyScoreText.text="Enemy "+EnemyWins;
+        DrawsText.text="Draws "+Draws;
     }
 }
