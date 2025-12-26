@@ -7,13 +7,11 @@ public class TurnScript : MonoBehaviour
     SpriteRenderer spriteRenderer;
     public int turn=0;
     public GameManager gameManager;
-    private bool unplayed=true;
     public int index,row,col;
     void Start()
     {
         spriteRenderer=GetComponent<SpriteRenderer>();
-
-        ResetTile();
+        spriteRenderer.sprite=null;
 
         index=gameObject.name[1]-'1';
         row=index/3;
@@ -23,30 +21,27 @@ public class TurnScript : MonoBehaviour
     {
         if (gameManager.board[row*3+col] == -1)
         {
-            ResetTile();
+            spriteRenderer.sprite=null;
         }
         else
         {
             spriteRenderer.sprite=Images[gameManager.board[row*3+col]];
         }
     }
-    /*void OnMouseDown()
+    // For manual playing
+    void OnMouseDown()
     {
-        // For manual playing
-        if (!unplayed)  return;
+        if (gameManager.gameMode != GameManager.GameMode.HumanVsBot) return;
+        if (gameManager.currentPlayer!=gameManager.humanPlayer) return;
+        if (gameManager.board[index]!=-1)  return;
 
-        turn = gameManager.PlayerTurn(index);
+        gameManager.AgentTurn(index,
+            gameManager.humanPlayer==1 ?
+            gameManager.agentX :
+            gameManager.agentO);
         if (turn==-1) return;
 
         // Player : 1 (Red X)
         // Enemy : 0 (Blue O)
-        spriteRenderer.sprite=Images[turn];
-
-        unplayed=false;
-    }*/
-    void ResetTile()
-    {
-        spriteRenderer.sprite=null;
-        unplayed=true;
     }
 }

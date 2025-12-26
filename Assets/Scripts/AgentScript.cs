@@ -35,4 +35,16 @@ public class AgentScript : Agent
         int a = actions.DiscreteActions[0];
         gameManager.AgentTurn(a,this);
     }
+    public override void Heuristic(in ActionBuffers actionsOut)
+    {
+        var discrete = actionsOut.DiscreteActions;
+        for (int i = 0; i < 9; i++)
+        {
+            if (gameManager.board[i] == -1)
+            {
+                discrete[0] = i;
+                return;
+            }
+        }
+    }
 }

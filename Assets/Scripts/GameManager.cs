@@ -1,10 +1,21 @@
 using UnityEngine;
 using TMPro;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
+    public enum GameMode
+    {
+        SelfPlay,
+        HumanVsBot,
+        BotVsBot
+    }
+    public GameMode gameMode = GameMode.HumanVsBot;
+    public int humanPlayer=0; // X=1, O=0
     int turn;
-    int currentPlayer;
+    public int currentPlayer;
+    public float waitTime=1.0f;
+    bool botThinking=false;
     public int[] board=new int[9];
 
     [Header("Reward")]
@@ -32,13 +43,23 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         Restart();
+        if (gameMode != GameMode.HumanVsBot)
+        {
+            humanPlayer=-1;
+        }
     }
     void Update()
     {
-        // For manual restart
-        if (Input.GetKeyDown(KeyCode.R))
+        if (currentPlayer != humanPlayer && !botThinking)
         {
-            Restart();
+            StartCoroutine(StartBotMove());
+        }
+        if (gameMode == GameMode.HumanVsBot)
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                Restart();
+            }
         }
     }
 
@@ -57,8 +78,11 @@ public class GameManager : MonoBehaviour
             Games++;
             if (currentPlayer==1) X_Wins++;
             else O_Wins++;
-            agent.AddReward(WinReward);
-            (agent.opponent).AddReward(LosePenalty);
+            if (gameMode == GameMode.SelfPlay)
+            {
+                agent.AddReward(WinReward);
+                (agent.opponent).AddReward(LosePenalty);
+            }
             EndGame();
             return ;
         }
@@ -66,8 +90,11 @@ public class GameManager : MonoBehaviour
         {
             Games++;
             Draws++;
-            agentX.AddReward(DrawReward);
-            agentO.AddReward(DrawReward);
+            if (gameMode == GameMode.SelfPlay)
+            {
+                agentX.AddReward(DrawReward);
+                agentO.AddReward(DrawReward);
+            }
             EndGame();
             return;
         }
@@ -111,6 +138,9 @@ public class GameManager : MonoBehaviour
     }
     public void Restart()
     {
+        StopAllCoroutines();
+        botThinking = true;
+
         for (int i = 0; i < 9; i++)
         {
             board[i]=-1;
@@ -120,6 +150,7 @@ public class GameManager : MonoBehaviour
         currentPlayer=(Random.value>0.5f)?1:0;
 
         UpdateUI();
+        botThinking=false;
     }
     void UpdateUI()
     {
@@ -128,5 +159,15 @@ public class GameManager : MonoBehaviour
         O_ScoreText.text="O "+O_Wins;
         DrawsText.text="Draws "+Draws;
         TurnText.text=(currentPlayer==1)?"X Turn":"O Turn";
+    }
+    IEnumerator StartBotMove()
+    {
+        botThinking=true;
+
+        AgentScript bot = (currentPlayer==1)? agentX:agentO;
+        yield return new WaitForSeconds(waitTime);
+        bot.RequestDecision();
+
+        botThinking=false;
     }
 }

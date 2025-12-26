@@ -590,6 +590,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 458d9c06bb915a71ca5dfec5700fd51a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameMode: 1
+  humanPlayer: 0
+  currentPlayer: 0
+  waitTime: 0.2
   board: 000000000000000000000000000000000000000000000000000000000000000000000000
   WinReward: 1
   LosePenalty: -1
@@ -1307,7 +1311,6 @@ GameObject:
   - component: {fileID: 934305819}
   - component: {fileID: 934305821}
   - component: {fileID: 934305820}
-  - component: {fileID: 934305822}
   m_Layer: 0
   m_Name: X Agent
   m_TagString: Untagged
@@ -1371,28 +1374,14 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 0}
+  m_Model: {fileID: 5022602860645237092, guid: cb997e3d4dcf1bb6bb8f96610b3969e4, type: 3}
   m_InferenceDevice: 0
-  m_BehaviorType: 0
+  m_BehaviorType: 2
   m_BehaviorName: Tic
   TeamId: 0
   m_UseChildSensors: 1
   m_UseChildActuators: 1
   m_ObservableAttributeHandling: 0
---- !u!114 &934305822
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 934305818}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DecisionPeriod: 10
-  TakeActionsBetweenDecisions: 1
 --- !u!1 &992043674
 GameObject:
   m_ObjectHideFlags: 0
@@ -1876,7 +1865,6 @@ GameObject:
   - component: {fileID: 1158369332}
   - component: {fileID: 1158369331}
   - component: {fileID: 1158369329}
-  - component: {fileID: 1158369330}
   m_Layer: 0
   m_Name: O Agent
   m_TagString: Untagged
@@ -1903,20 +1891,6 @@ MonoBehaviour:
   player: 0
   gameManager: {fileID: 297841046}
   opponent: {fileID: 934305820}
---- !u!114 &1158369330
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1158369328}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DecisionPeriod: 10
-  TakeActionsBetweenDecisions: 1
 --- !u!114 &1158369331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1939,9 +1913,9 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 0}
+  m_Model: {fileID: 5022602860645237092, guid: cb997e3d4dcf1bb6bb8f96610b3969e4, type: 3}
   m_InferenceDevice: 0
-  m_BehaviorType: 0
+  m_BehaviorType: 2
   m_BehaviorName: Tic
   TeamId: 0
   m_UseChildSensors: 1
