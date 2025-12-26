@@ -5,13 +5,14 @@
 
 Bonus : Video, BotVsBot(Only in Unity?)
 ## Index
-- [[README#How the Bot Learns|How The Bot Learns]]
-- [[README#Reward Curves|Reward Curves]]
-- [[README#Win Condition Logic|Win Condition Logic]]
-- [[README#Reflection Questions|Reflection Questions]]
-- [[README#Q-Table Reflection|Q-table Reflection]]
+- [How The Bot Learns](#-how-the-bot-learns)
+- [Reward Curves](#-reward-curves)
+- [Win Condition Logic](#-win-condition-logic)
+- [Reflection Questions](#-reflection-questions)
+- [Q table Reflection](#-q-table-reflection)
   (TL;DR : Due to time constraints, Q-table part used AI code and was incomplete but works fine.)
-- [[README#GameMode Change in Unity|GameMode Change In Unity]]
+- [GameMode Change In Unity](#-gamemode-change-in-unity)
+
 ## How the Bot Learns
 #### ML Agent
 Initially, the bot learns through standard reward system introduced in week 1 (i.e. using MLAgents package). This happens by giving rewards based on its performance.
@@ -82,7 +83,7 @@ Returns 1 if won and 0 if nothing found.
 - **What does this tell you about instability in RL training?**
   This shows that RL is very sensitive to reward design, but also to the game environment itself. A small error in logic could lead to the doom of the agent and lots of wasted time.
 
-## Q-Table Reflection
+## Q Table Reflection
 After this, I decided to change from implement from ML Agents to Q-Table. But, I was busy on day 3, so I had to complete this in 2 days. I rushed and blindly copy-pasted code from AI. While the new model still works ok, there were faults like no intermediate reward which would make the agent better. Anyway, the build contains the Q-table version, but in unity you could manually change the gamemode.
 
 ## GameMode Change in Unity
