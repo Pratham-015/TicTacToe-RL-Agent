@@ -27,15 +27,33 @@
                 "auxillary_file_paths": [
                     "results/Tic_v1/Tic/Tic-20023.pt"
                 ]
+            },
+            {
+                "steps": 20192,
+                "file_path": "results/Tic_v1/Tic/Tic-20192.onnx",
+                "reward": -298.8416684468587,
+                "creation_time": 1766729914.011662,
+                "auxillary_file_paths": [
+                    "results/Tic_v1/Tic/Tic-20192.pt"
+                ]
+            },
+            {
+                "steps": 365481,
+                "file_path": "results/Tic_v1/Tic/Tic-365481.onnx",
+                "reward": -59.747267117652065,
+                "creation_time": 1766736542.9987998,
+                "auxillary_file_paths": [
+                    "results/Tic_v1/Tic/Tic-365481.pt"
+                ]
             }
         ],
         "final_checkpoint": {
-            "steps": 20023,
+            "steps": 365481,
             "file_path": "results/Tic_v1/Tic.onnx",
-            "reward": -336.28700035309123,
-            "creation_time": 1766693532.8332124,
+            "reward": -59.747267117652065,
+            "creation_time": 1766736542.9987998,
             "auxillary_file_paths": [
-                "results/Tic_v1/Tic/Tic-20023.pt"
+                "results/Tic_v1/Tic/Tic-365481.pt"
             ]
         }
     },

@@ -21,17 +21,21 @@ public class TurnScript : MonoBehaviour
     }
     void Update()
     {
-        if (gameManager.board[row * 3 + col] == -1)
+        if (gameManager.board[row*3+col] == -1)
         {
             ResetTile();
         }
+        else
+        {
+            spriteRenderer.sprite=Images[gameManager.board[row*3+col]];
+        }
     }
-    void OnMouseDown()
+    /*void OnMouseDown()
     {
         // For manual playing
         if (!unplayed)  return;
 
-        turn = gameManager.PlayerTurn(row,col);
+        turn = gameManager.PlayerTurn(index);
         if (turn==-1) return;
 
         // Player : 1 (Red X)
@@ -39,7 +43,7 @@ public class TurnScript : MonoBehaviour
         spriteRenderer.sprite=Images[turn];
 
         unplayed=false;
-    }
+    }*/
     void ResetTile()
     {
         spriteRenderer.sprite=null;
