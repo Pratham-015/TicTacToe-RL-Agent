@@ -12,6 +12,7 @@ public class AgentScript : Agent
     
     public override void CollectObservations(VectorSensor sensor)
     {
+        if (gameManager.ai!=GameManager.AI.MLAgent) return;
         for (int i = 0; i < 9; i++)
         {
             sensor.AddObservation(gameManager.board[i]);    // 9 int
@@ -22,6 +23,7 @@ public class AgentScript : Agent
     }
     public override void WriteDiscreteActionMask(IDiscreteActionMask mask)
     {
+        if (gameManager.ai!=GameManager.AI.MLAgent) return;
         for (int i = 0; i < 9; i++)
         {
             if (gameManager.board[i] != -1)
@@ -31,12 +33,14 @@ public class AgentScript : Agent
 
     public override void OnActionReceived(ActionBuffers actions)
     {
+        if (gameManager.ai!=GameManager.AI.MLAgent) return;
         // One discrete action received : tile index (0 to 8)
         int a = actions.DiscreteActions[0];
         gameManager.AgentTurn(a,this);
     }
     public override void Heuristic(in ActionBuffers actionsOut)
     {
+        if (gameManager.ai!=GameManager.AI.MLAgent) return;
         var discrete = actionsOut.DiscreteActions;
         for (int i = 0; i < 9; i++)
         {

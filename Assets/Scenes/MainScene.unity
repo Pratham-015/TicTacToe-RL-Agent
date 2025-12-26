@@ -590,18 +590,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 458d9c06bb915a71ca5dfec5700fd51a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameMode: 1
+  gameMode: 3
+  ai: 1
   humanPlayer: 0
+  turn: 0
   currentPlayer: 0
   waitTime: 0.2
   board: 000000000000000000000000000000000000000000000000000000000000000000000000
   WinReward: 1
   LosePenalty: -1
-  DrawReward: 0.2
+  DrawReward: 0.05
   Games: 0
   X_Wins: 0
   O_Wins: 0
   Draws: 0
+  qTable: {fileID: 1395492601}
   GamesText: {fileID: 56327711}
   X_ScoreText: {fileID: 313392539}
   O_ScoreText: {fileID: 1090087551}
@@ -627,6 +630,7 @@ Transform:
   - {fileID: 1068373417}
   - {fileID: 642368621}
   - {fileID: 496836541}
+  - {fileID: 1395492602}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &313392537
@@ -1935,6 +1939,58 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 496836541}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1395492600
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1395492602}
+  - component: {fileID: 1395492601}
+  m_Layer: 0
+  m_Name: QTable
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1395492601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1395492600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f6d52176193b763e8b738599304c163, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameManager: {fileID: 297841046}
+  alpha: 0.05
+  gamma: 0.99
+  epsilon: 1
+  epsilonMin: 0.05
+  epsilonDecay: 0.9995
+  maxEpisode: 100000
+  summaryFreq: 10000
+--- !u!4 &1395492602
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1395492600}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 297841047}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1485847392
 PrefabInstance:
