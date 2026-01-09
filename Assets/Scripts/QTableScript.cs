@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -28,12 +27,13 @@ public class QTableScript : MonoBehaviour
         {
             gameManager.ResetBoardForTraining();
             bool done=false;
-            lastStateX = lastStateO = -1;
-            lastActionX = lastActionO = -1;
+            lastStateX=lastStateO=-1;
+            lastActionX=lastActionO=-1;
 
             while (!done)
             {
                 int player=gameManager.currentPlayer;
+                int turn=gameManager.turn;
                 int state=EncodeState(gameManager.board);
                 
                 int status;
@@ -55,17 +55,31 @@ public class QTableScript : MonoBehaviour
                 int nextState=EncodeState(gameManager.board);
 
                 float reward1=0,reward2=0;
+                if (!gameManager.BlocksImmediateWin(action, player))
+                {
+                    reward1+=gameManager.MissesBlockedMove;
+                }
+                if (turn==0)
+                {
+                    if (action==4){
+                        reward1+=gameManager.CenterReward;
+                    }
+                    else if (action==0||action==2||action==6||action==8){
+                        reward1+=gameManager.CornerReward;
+                    }
+                }
+
                 if (status == 1)
                 {
                     done = true;
-                    reward1=gameManager.WinReward;
-                    reward2=gameManager.LosePenalty;
+                    reward1+=gameManager.WinReward;
+                    reward2+=gameManager.LosePenalty;
                 }
                 else if (status == 2)
                 {
                     done=true;
-                    reward1=gameManager.DrawReward;
-                    reward2=gameManager.DrawReward;
+                    reward1+=gameManager.DrawReward;
+                    reward2+=gameManager.DrawReward;
                 }
                 
                 if (player == 1)
@@ -153,13 +167,7 @@ public class QTableScript : MonoBehaviour
         }
         return bestAction;
     }
-    void UpdateQ(
-        Dictionary<int,float[]> Q,
-        int state,
-        int action,
-        float reward,
-        int nextState,
-        bool done)
+    void UpdateQ(Dictionary<int,float[]> Q,int state,int action,float reward,int nextState,bool done)
     {
         float[] q=GetQValues(Q,state);
         float[] qNext = GetQValues(Q,nextState);
@@ -174,78 +182,75 @@ public class QTableScript : MonoBehaviour
         q[action]+= alpha*(reward+gamma*maxNext-q[action]);
     }
 
-[System.Serializable]
-public class QEntry
-{
-    public int state;
-    public float[] q;
-}
-[System.Serializable]
-public class QTableData
-{
-    public List<QEntry> QX = new List<QEntry>();
-    public List<QEntry> QO = new List<QEntry>();
-}
-public void SaveQTables()
-{
-    QTableData data = new QTableData();
-
-    foreach (var kv in QX)
-        data.QX.Add(new QEntry { state = kv.Key, q = kv.Value });
-
-    foreach (var kv in QO)
-        data.QO.Add(new QEntry { state = kv.Key, q = kv.Value });
-
-    string json = JsonUtility.ToJson(data, true);
-    string path = Application.persistentDataPath + "/qtable.json";
-
-    System.IO.File.WriteAllText(path, json);
-
-    Debug.Log("Q-table saved to: " + path);
-}
-public void LoadQTables()
-{
-    string path = Application.persistentDataPath + "/qtable.json";
-
-    if (!System.IO.File.Exists(path))
+    [System.Serializable]
+    public class QEntry
     {
-        Debug.LogWarning("No Q-table found");
-        return;
+        public int state;
+        public float[] q;
     }
-
-    string json = System.IO.File.ReadAllText(path);
-    QTableData data = JsonUtility.FromJson<QTableData>(json);
-
-    QX.Clear();
-    QO.Clear();
-
-    foreach (var e in data.QX)
-        QX[e.state] = e.q;
-
-    foreach (var e in data.QO)
-        QO[e.state] = e.q;
-
-    Debug.Log("Q-table loaded");
-}
-public int GetBestMove(int player, int[] board)
-{
-    int state = EncodeState(board);
-    var Q = (player == 1) ? QX : QO;
-
-    float[] q = GetQValues(Q, state);
-
-    float best = float.NegativeInfinity;
-    int bestAction = -1;
-
-    for (int i = 0; i < 9; i++)
+    [System.Serializable]
+    public class QTableData
     {
-        if (board[i] != -1) continue;
-        if (q[i] > best)
+        public List<QEntry> QX = new List<QEntry>();
+        public List<QEntry> QO = new List<QEntry>();
+    }
+    public void SaveQTables()
+    {
+        QTableData data = new QTableData();
+
+        foreach (var i in QX)
+            data.QX.Add(new QEntry {state=i.Key,q=i.Value});
+        foreach (var i in QO)
+            data.QO.Add(new QEntry {state=i.Key,q=i.Value});
+
+        string json=JsonUtility.ToJson(data,true);
+        string path=Application.persistentDataPath+"/qtable.json";
+
+        System.IO.File.WriteAllText(path,json);
+        Debug.Log("Q-table saved to: "+path);
+    }
+    public void LoadQTables()
+    {
+        string path = Application.persistentDataPath + "/qtable.json";
+
+        if (!System.IO.File.Exists(path))
         {
-            best = q[i];
-            bestAction = i;
+            Debug.LogWarning("No Q-table found");
+            return;
         }
+
+        string json = System.IO.File.ReadAllText(path);
+        QTableData data = JsonUtility.FromJson<QTableData>(json);
+
+        QX.Clear();
+        QO.Clear();
+        foreach (var e in data.QX)
+            QX[e.state]=e.q;
+
+        foreach (var e in data.QO)
+            QO[e.state]=e.q;
+
+        Debug.Log("Q-table loaded");
     }
-    return bestAction;
-}
+    public int GetBestMove(int player, int[] board)
+    {
+        int state=EncodeState(board);
+        var Q=(player==1)?QX:QO;
+
+        float[] q=GetQValues(Q,state);
+
+        float best=float.NegativeInfinity;
+        int bestAction=-1;
+
+        for (int i=0;i<9;i++)
+        {
+            if (board[i]!=-1) continue;
+            if (q[i]>best)
+            {
+                best=q[i];
+                bestAction=i;
+            }
+        }
+        return bestAction;
+    }
 }

@@ -590,7 +590,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 458d9c06bb915a71ca5dfec5700fd51a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameMode: 3
+  gameMode: 1
   ai: 1
   humanPlayer: 0
   turn: 0
@@ -598,8 +598,11 @@ MonoBehaviour:
   waitTime: 0.2
   board: 000000000000000000000000000000000000000000000000000000000000000000000000
   WinReward: 1
-  LosePenalty: -1
-  DrawReward: 0.05
+  LosePenalty: -2
+  DrawReward: 0.75
+  CenterReward: 0.15
+  CornerReward: 0.05
+  MissesBlockedMove: -0.5
   Games: 0
   X_Wins: 0
   O_Wins: 0
