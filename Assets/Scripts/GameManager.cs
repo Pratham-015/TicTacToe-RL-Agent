@@ -25,16 +25,20 @@ public class GameManager : MonoBehaviour
     bool botThinking=false;
     public int[] board=new int[9];
 
-    [Header("Reward")]
+    [Header("Rewards")]
     public float WinReward=1.0f;
     public float LosePenalty=-1.00f;
     public float DrawReward=0.05f;
+    public float CenterReward=0.15f;
+    public float CornerReward=0.05f;
+    public float MissesBlockedMove=-0.5f;
 
     [Header("Scores")]
     public int Games = 0;
     public int X_Wins = 0;
     public int O_Wins = 0;
     public int Draws = 0;
+
     [Header("Q Learning")]
     public QTableScript qTable;
 
@@ -108,11 +112,22 @@ public class GameManager : MonoBehaviour
             if (gameMode == GameMode.SelfPlay)
             {
                 agent.AddReward(WinReward);
-                (agent.opponent).AddReward(LosePenalty);
+                agent.opponent.AddReward(LosePenalty);
             }
             EndGame();
             return ;
         }
+        if (gameMode==GameMode.SelfPlay && turn==0)
+            {
+                if (a==4){
+                    agent.AddReward(CenterReward);
+                    agent.opponent.AddReward(CenterReward);
+                }
+                else if (a==0||a==2||a==6||a==8){
+                    agent.AddReward(WinReward);
+                    agent.opponent.AddReward(LosePenalty);
+                }
+            }
         if (turn==9) 
         {
             Games++;
@@ -186,6 +201,25 @@ public class GameManager : MonoBehaviour
         }
         return false;
     }
+    public bool BlocksImmediateWin(int action, int player)
+    {
+        int opp=1-player;
+        for (int i=0;i<9;i++)
+        {
+            if (board[i]==-1)
+            {
+                board[i]=opp;
+                if (WinCheck(i/3,i%3,opp))
+                {
+                    board[i]=-1;
+                    return false;
+                }
+                board[i]=-1;
+            }
+        }
+        return true;
+}
+
     public void EndGame()
     {
         Restart();
@@ -256,8 +290,9 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
         qTable.SaveQTables();
         Debug.Log("Training finished & Q-table saved");
+        
         // Switch to play mode automatically
-        gameMode = GameMode.HumanVsBot;
+        gameMode=GameMode.HumanVsBot;
         humanPlayer=0;
         Games=0;
         X_Wins=0;
