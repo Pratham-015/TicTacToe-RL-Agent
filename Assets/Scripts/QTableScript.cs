@@ -211,24 +211,41 @@ public class QTableScript : MonoBehaviour
     }
     public void LoadQTables()
     {
-        string path = Application.persistentDataPath + "/qtable.json";
+        string persistentPath = Application.persistentDataPath + "/qtable.json";
+        string defaultPath = Application.streamingAssetsPath + "/qtable.json";
 
-        if (!System.IO.File.Exists(path))
+        string path = "";
+
+        if (System.IO.File.Exists(persistentPath))
         {
-            Debug.LogWarning("No Q-table found");
+            path = persistentPath;
+        }
+        else if (System.IO.File.Exists(defaultPath))
+        {
+            path = defaultPath;
+            Debug.Log("No saved Q-table found, loading default Q-table from StreamingAssets");
+        }
+        else
+        {
+            Debug.LogWarning("No Q-table found anywhere. Starting with empty Q-tables.");
             return;
         }
 
         string json = System.IO.File.ReadAllText(path);
         QTableData data = JsonUtility.FromJson<QTableData>(json);
 
+        if (data == null)
+        {
+            Debug.LogError("Failed to parse Q-table JSON");
+            return;
+        }
+
         QX.Clear();
         QO.Clear();
         foreach (var e in data.QX)
-            QX[e.state]=e.q;
-
+            QX[e.state] = (float[])e.q.Clone();
         foreach (var e in data.QO)
-            QO[e.state]=e.q;
+            QO[e.state] = (float[])e.q.Clone();
 
         Debug.Log("Q-table loaded");
     }

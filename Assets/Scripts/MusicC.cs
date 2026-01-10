@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MusicManager : MonoBehaviour
 {
     private static MusicManager instance;
 
-    void Awake()
+    /*void Start()
     {
         if (instance == null)
         {
@@ -16,5 +17,9 @@ public class MusicManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }*/
+    void Start()
+    {
+        GetComponent<AudioSource>().Play();
     }
 }

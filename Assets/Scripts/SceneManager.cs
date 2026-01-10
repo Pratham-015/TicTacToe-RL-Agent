@@ -35,4 +35,20 @@ public class SceneManage : MonoBehaviour
         OP.SetActive(true);
         GM.SetActive(false);
     }
+    public void MLA()
+    {
+        SceneManager.LoadScene(1);
+    }
+    public void QTB()
+    {
+        SceneManager.LoadScene(2);
+    }
+    public void MMLoad()
+    {
+        SceneManager.LoadScene(0);
+    }
+    public void Hooman()
+    {
+        SceneManager.LoadScene(3);
+    }
 }

@@ -31,7 +31,7 @@ public class TurnScript : MonoBehaviour
     // For manual playing
     void OnMouseDown()
     {
-        if (gameManager.gameMode != GameManager.GameMode.HumanVsBot) return;
+        if (gameManager.gameMode != GameManager.GameMode.HumanVsBot && gameManager.gameMode != GameManager.GameMode.HumanVsHuman) return;
         if (gameManager.currentPlayer!=gameManager.humanPlayer) return;
         if (gameManager.board[index]!=-1)  return;
 

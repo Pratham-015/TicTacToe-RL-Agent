@@ -9,7 +9,8 @@ public class GameManager : MonoBehaviour
         SelfPlay,
         HumanVsBot,
         BotVsBot,
-        QTraining
+        QTraining,
+        HumanVsHuman
     }
     public enum AI
     {
@@ -24,6 +25,7 @@ public class GameManager : MonoBehaviour
     public float waitTime=1.0f;
     bool botThinking=false;
     public int[] board=new int[9];
+    public AudioSource audioSource;
 
     [Header("Rewards")]
     public float WinReward=1.0f;
@@ -55,8 +57,9 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         Restart();
-        if (gameMode != GameMode.HumanVsBot)
+        if (gameMode != GameMode.HumanVsBot && gameMode!=GameMode.HumanVsHuman)
         {
             humanPlayer=-1;
         }
@@ -84,7 +87,7 @@ public class GameManager : MonoBehaviour
             }
             
         }
-        if (gameMode == GameMode.HumanVsBot)
+        if (gameMode == GameMode.HumanVsBot || gameMode==GameMode.HumanVsHuman)
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
@@ -103,6 +106,7 @@ public class GameManager : MonoBehaviour
 
         board[a]=currentPlayer;
         turn++;
+        audioSource.Play();
 
         if (WinCheck(a/3, a%3, currentPlayer)) 
         {
@@ -141,6 +145,7 @@ public class GameManager : MonoBehaviour
             return;
         }
         currentPlayer=1-currentPlayer;
+        if (gameMode == GameMode.HumanVsHuman) humanPlayer = currentPlayer;
         UpdateUI();
     }
     public int QTurn(int a)
@@ -152,6 +157,7 @@ public class GameManager : MonoBehaviour
 
         board[a]=currentPlayer;
         turn++;
+        audioSource.Play();
 
         if (WinCheck(a/3, a%3, currentPlayer)) 
         {
@@ -238,6 +244,7 @@ public class GameManager : MonoBehaviour
         
         turn=0;
         currentPlayer=(Random.value>0.5f)?1:0;
+        if (gameMode == GameMode.HumanVsHuman) humanPlayer = currentPlayer;
 
         UpdateUI();
         botThinking=false;
