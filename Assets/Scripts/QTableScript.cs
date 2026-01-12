@@ -228,7 +228,7 @@ public class QTableScript : MonoBehaviour
         else
         {
             Debug.LogWarning("No Q-table found anywhere. Starting with empty Q-tables.");
-            return;
+            return; 
         }
 
         string json = System.IO.File.ReadAllText(path);

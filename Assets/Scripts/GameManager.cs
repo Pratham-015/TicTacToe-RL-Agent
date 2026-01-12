@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
     bool botThinking=false;
     public int[] board=new int[9];
     public AudioSource audioSource;
+    public Sprite[] Images;
+    public SpriteRenderer spriteRenderer;
 
     [Header("Rewards")]
     public float WinReward=1.0f;
@@ -262,10 +264,11 @@ public class GameManager : MonoBehaviour
     {
         if (gameMode == GameMode.QTraining) return;
         GamesText.text="Games "+Games;
-        X_ScoreText.text="X "+X_Wins;
-        O_ScoreText.text="O "+O_Wins;
-        DrawsText.text="Draws "+Draws;
-        TurnText.text=(currentPlayer==1)?"X Turn":"O Turn";
+        X_ScoreText.text=""+X_Wins;
+        O_ScoreText.text=""+O_Wins;
+        DrawsText.text="" + Draws;
+        spriteRenderer.sprite = Images[currentPlayer];
+        TurnText.text="Turn";
     }
     IEnumerator StartMLAgentBotMove()
     {
